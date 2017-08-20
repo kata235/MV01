@@ -1,0 +1,9 @@
+[
+null,
+{"id":1,"expanded":true,"name":"黒背景","order":1,"parentId":0,"scrollX":523.3333333333334,"scrollY":464.6666666666667},
+{"id":2,"expanded":true,"name":"１階","order":2,"parentId":1,"scrollX":523.3333333333334,"scrollY":454},
+{"id":3,"expanded":true,"name":"２階","order":3,"parentId":2,"scrollX":523.3333333333334,"scrollY":454},
+{"id":4,"expanded":false,"name":"３階","order":4,"parentId":3,"scrollX":523.3333333333334,"scrollY":454},
+{"id":5,"expanded":true,"name":"チュートリアル用","order":5,"parentId":0,"scrollX":523.3333333333334,"scrollY":454},
+{"id":6,"expanded":false,"name":"おまけ用","order":6,"parentId":0,"scrollX":523.3333333333334,"scrollY":464.6666666666667}
+]
