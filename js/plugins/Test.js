@@ -1,5 +1,14 @@
 (function() {
 
+	//開発情報
+	Scene_Title.prototype.version = function() {
+		var version = new Sprite();
+		this.addChild(version);
+		version.bitmap = new Bitmap(300, 100);
+		version.bitmap.drawText("Ver 1.1 Created by エリック", 0, 0, version.width, version.height, "left");
+		version.x = 500;
+		version.y = 530;
+	}
 	
 	//常時ダッシュ
 	Game_Player.prototype.isDashing = function() {
@@ -63,23 +72,28 @@
 	};
 	
 	//攻撃
-	Input.keyMapper[70] = 'shoot';
+	Input.keyMapper[32] = 'shoot';
 	var _Scene_Map_updateScene = Scene_Map.prototype.updateScene;
     Scene_Map.prototype.updateScene = function() {
         _Scene_Map_updateScene.call(this);
-		if (Input.isPressed('shoot') && $gameSwitches.value(1)) $gameSwitches.setValue(2,true);
+		if (Input.isPressed('shoot') && $gameSwitches.value(1) && !$gameSwitches.value(14)) $gameSwitches.setValue(2,true);
 	};
 	attackEvents = function(event) {
 		attackReact();
 		var bx = Math.floor($gameMap._events[event]._realX);
 		var by = Math.floor($gameMap._events[event]._realY);
 		Scene_Map.prototype.createBlood(bx, by)
-		if ($gameSystem.hp[event] == 100) $gameVariables._data[2]++;
+		if ($gameSystem.hp[event] == 100) {
+			$gameVariables._data[2]++;
+		}
 		$gameMap._events[event].requestAnimation(2);
-		var rand = Math.floor( Math.random() * 81 ) + 20;
+		var rand = Math.floor( Math.random() * 21 ) + 100;
+		AudioManager.playSe({"name":"Slash10","volume":50,"pitch":rand,"pan":0});
+		rand = Math.floor( Math.random() * 81 ) + 20;
 		$gameSystem.hp[event] -= rand;
 		if ($gameSystem.hp[event] <= 0) {
-			if ($gameMap._events[event]._characterName == "fs01") {
+			var name = $gameMap._events[event]._characterName;
+			if (name == "fs01" || name == "fs02") {
 				AudioManager.playSe({"name":"Cry1","volume":50,"pitch":120,"pan":0});
 			}else{
 				AudioManager.playSe({"name":"Cry2","volume":50,"pitch":120,"pan":0});
@@ -99,12 +113,20 @@
 					var temp = $gamePlayer.x - $gameMap._events[i].x;
 					if (Math.abs(temp) < 8) {
 						var key_a = [$gameMap._mapId, $gameMap._events[i]._eventId, "A"];
-						if ($gameSelfSwitches.value(key_a) !== true) $gameMap._events[i].requestBalloon(11);
+						if ($gameSelfSwitches.value(key_a) !== true) {
+							$gameMap._events[i].requestBalloon(11);
+							// if (!$gameSwitches.value(13) && $gameMap._events[i]._characterName != "ms01") {
+								// var rand = Math.floor( Math.random() * 21 ) + 130;
+								// $gameSwitches.setValue(13,true)
+								// AudioManager.playSe({"name":"Scream","volume":20,"pitch":rand,"pan":0});
+							// }
+						}
 						$gameSelfSwitches.setValue(key_a, true);
 					}
 				}
 			}
 		}
+		$gameSwitches.setValue(13,false);
 	}
 		
 	// 歩行音
@@ -323,16 +345,6 @@
 		info.timestamp  = Date.now();
 		return info;
 	};
-
-	//開発情報
-	Scene_Title.prototype.version = function() {
-		var version = new Sprite();
-		this.addChild(version);
-		version.bitmap = new Bitmap(300, 100);
-		version.bitmap.drawText("Ver 1.0 Created by エリック", 0, 0, version.width, version.height, "left");
-		version.x = 500;
-		version.y = 530;
-	}
 	
 	var STC = Scene_Title.prototype.create;
 	Scene_Title.prototype.create = function() {
@@ -393,4 +405,5 @@
 	};
 	Window_Options.prototype.addGeneralOptions = function() {
 	};
+	
 })();
