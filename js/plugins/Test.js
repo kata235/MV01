@@ -1,5 +1,15 @@
 (function() {
-
+	
+	var audioResume = function(){
+        if (WebAudio._context.state === "suspended") WebAudio._context.resume();
+        this.document.removeEventListener("click", audioResume);
+        this.document.removeEventListener("touchend", audioResume);
+        this.document.removeEventListener("keydown", audioResume);
+    };
+    this.document.addEventListener("click", audioResume);
+    this.document.addEventListener("touchend", audioResume);
+    this.document.addEventListener("keydown", audioResume);
+	   
 	//開発情報
 	Scene_Title.prototype.version = function() {
 		var version = new Sprite();
