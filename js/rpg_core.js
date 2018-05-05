@@ -7765,17 +7765,6 @@ WebAudio._createContext = function() {
         } else if (typeof webkitAudioContext !== 'undefined') {
             this._context = new webkitAudioContext();
         }
-		var audioResume = function() {
-            if (WebAudio._context.state === "suspended") {
-                WebAudio._context.resume();
-            }
-            this.document.removeEventListener("click", audioResume);
-            this.document.removeEventListener("touchend", audioResume);
-            this.document.removeEventListener("keydown", audioResume);
-        };
-       this.document.addEventListener("click", audioResume);
-       this.document.addEventListener("touchend", audioResume);
-       this.document.addEventListener("keydown", audioResume);
     } catch (e) {
         this._context = null;
     }
