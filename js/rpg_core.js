@@ -7705,6 +7705,7 @@ WebAudio.initialize = function(noAudio) {
             this._detectCodecs();
             this._createMasterGainNode();
             this._setupEventHandlers();
+			if (WebAudio._context.state == "suspended") WebAudio._context.resume();
         }
         this._initialized = true;
     }
